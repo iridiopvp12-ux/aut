@@ -1,0 +1,10 @@
+2026-01-28 13:23:27,289 - INFO - Assets path configured: /app/assets
+2026-01-28 13:23:27,985 - INFO - Starting Flet web server on port 8000...
+2026-01-28 13:23:27,987 - INFO - Web renderer configured: WebRenderer.CANVAS_KIT
+2026-01-28 13:23:27,987 - INFO - Use color emoji: False
+2026-01-28 13:23:27,988 - INFO - Route URL strategy configured: path
+2026-01-28 13:23:28,030 - INFO - Starting up Flet App Manager
+2026-01-28 13:23:28,030 - INFO - App URL: http://127.0.0.1:8000
+2026-01-28 13:23:30,247 - INFO - Shutting down Flet App Manager
+2026-01-28 13:23:30,248 - INFO - Flet app has started...
+2026-01-28 13:23:30,248 - INFO - Closing Flet web server...
