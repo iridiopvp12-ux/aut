@@ -3,11 +3,11 @@ from src.views.login_view import LoginView
 from src.views.dashboard_view import DashboardView
 from src.views.admin_view import AdminView
 from src.views.sped_view import SpedView
+from src.views.invest_view import InvestView
 from src.views.settings_view import SettingsView
 from src.utils.database import initialize_db
 from src.utils.logger import log_action
 
-# REMOVIDO 'async' AQUI
 def main(page: ft.Page):
     # --- Configurações da Janela ---
     page.title = "SiegAuto - Sistema Contabilidade"
@@ -15,10 +15,10 @@ def main(page: ft.Page):
     page.window_width = 1200
     page.window_height = 800
     page.padding = 0
-    
+
     # Define o diretório de assets e o ícone da janela
-    page.assets_dir = "assets" 
-    page.window_icon = "logo.png" 
+    page.assets_dir = "assets"
+    page.window_icon = "logo.png"
 
     # --- Inicializa Banco de Dados ---
     initialize_db()
@@ -34,7 +34,7 @@ def main(page: ft.Page):
         min_extended_width=400,
         group_alignment=-0.9,
         destinations=[],
-        on_change=None 
+        on_change=None
     )
 
     page_content = ft.Container(expand=True, padding=20)
@@ -45,7 +45,7 @@ def main(page: ft.Page):
         nonlocal current_user
         if current_user:
             log_action(f"User logged out: {current_user['username']}")
-        
+
         current_user = None
         page.clean()
         page.add(LoginView(page, on_login_success))
@@ -75,6 +75,8 @@ def main(page: ft.Page):
             page_content.content = AdminView(page)
         elif selected_label == "SPED":
             page_content.content = SpedView(page)
+        elif selected_label == "Invest / Contrib":
+            page_content.content = InvestView(page)
         elif selected_label == "Configurações":
             page_content.content = SettingsView(page)
 
@@ -98,12 +100,15 @@ def main(page: ft.Page):
         # Construção dinâmica do Menu
         if has_perm("dashboard"):
             dests.append(get_destination(ft.Icons.DASHBOARD_OUTLINED, "Dashboard", ft.Icons.DASHBOARD))
-        
+
         if is_admin:
             dests.append(get_destination(ft.Icons.ADMIN_PANEL_SETTINGS_OUTLINED, "Admin", ft.Icons.ADMIN_PANEL_SETTINGS))
 
         if has_perm("sped"):
             dests.append(get_destination(ft.Icons.DESCRIPTION_OUTLINED, "SPED", ft.Icons.DESCRIPTION))
+
+        if has_perm("sped"): # Assuming same permission or "all"
+            dests.append(get_destination(ft.Icons.MONETIZATION_ON_OUTLINED, "Invest / Contrib", ft.Icons.MONETIZATION_ON))
 
         if has_perm("settings"):
             dests.append(get_destination(ft.Icons.SETTINGS_OUTLINED, "Configurações", ft.Icons.SETTINGS))
@@ -115,13 +120,15 @@ def main(page: ft.Page):
         if dests:
             rail.selected_index = 0
             first_label = dests[0].label
-            
+
             if first_label == "Dashboard":
                 page_content.content = DashboardView()
             elif first_label == "Admin":
                 page_content.content = AdminView(page)
             elif first_label == "SPED":
                 page_content.content = SpedView(page)
+            elif first_label == "Invest / Contrib":
+                page_content.content = InvestView(page)
             elif first_label == "Configurações":
                 page_content.content = SettingsView(page)
         else:
