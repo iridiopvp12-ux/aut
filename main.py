@@ -5,6 +5,8 @@ from src.views.admin_view import AdminView
 from src.views.sped_view import SpedView
 from src.views.invest_view import InvestView
 from src.views.settings_view import SettingsView
+from src.views.keys_extractor_view import KeysExtractorView
+from src.views.sped_filter_view import SpedFilterView
 from src.utils.database import initialize_db
 from src.utils.logger import log_action
 
@@ -77,6 +79,10 @@ def main(page: ft.Page):
             page_content.content = SpedView(page)
         elif selected_label == "Invest / Contrib":
             page_content.content = InvestView(page)
+        elif selected_label == "Extrator Chaves":
+            page_content.content = KeysExtractorView(page)
+        elif selected_label == "Filtro SPED":
+            page_content.content = SpedFilterView(page)
         elif selected_label == "Configurações":
             page_content.content = SettingsView(page)
 
@@ -107,8 +113,10 @@ def main(page: ft.Page):
         if has_perm("sped"):
             dests.append(get_destination(ft.Icons.DESCRIPTION_OUTLINED, "SPED", ft.Icons.DESCRIPTION))
 
-        if has_perm("sped"): # Assuming same permission or "all"
+        if has_perm("sped"): # Assuming same permission group for now
             dests.append(get_destination(ft.Icons.MONETIZATION_ON_OUTLINED, "Invest / Contrib", ft.Icons.MONETIZATION_ON))
+            dests.append(get_destination(ft.Icons.KEY_OUTLINED, "Extrator Chaves", ft.Icons.KEY))
+            dests.append(get_destination(ft.Icons.FILTER_ALT_OUTLINED, "Filtro SPED", ft.Icons.FILTER_ALT))
 
         if has_perm("settings"):
             dests.append(get_destination(ft.Icons.SETTINGS_OUTLINED, "Configurações", ft.Icons.SETTINGS))
