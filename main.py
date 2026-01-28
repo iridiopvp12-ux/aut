@@ -67,6 +67,9 @@ def main(page: ft.Page):
         index = e.control.selected_index
         selected_label = rail.destinations[index].label
 
+        # Limpa overlay para evitar conflitos/duplicações de FilePickers
+        page.overlay.clear()
+
         # Limpa o conteúdo atual
         page_content.content = None
 
@@ -86,7 +89,8 @@ def main(page: ft.Page):
         elif selected_label == "Configurações":
             page_content.content = SettingsView(page)
 
-        page_content.update()
+        # Atualiza a página inteira para garantir que os FilePickers no overlay sejam registrados
+        page.update()
 
     rail.on_change = on_nav_change
 
