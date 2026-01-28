@@ -43,9 +43,12 @@ class LoginView(ft.Container):
         conn.close()
 
         if user_row:
-             db_pass = user_row['password']
-             # db_pass is stored as string, encode to bytes for bcrypt
-             if bcrypt.checkpw(password.encode('utf-8'), db_pass.encode('utf-8')):
+             db_pass = user_row['password_hash']
+             # db_pass is stored as bytes (BLOB) or string. Ensure bytes for bcrypt.
+             if isinstance(db_pass, str):
+                 db_pass = db_pass.encode('utf-8')
+
+             if bcrypt.checkpw(password.encode('utf-8'), db_pass):
                  user = {
                      "username": user_row['username'],
                      "is_admin": bool(user_row['is_admin']),
